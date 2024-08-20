@@ -1,0 +1,51 @@
+Documentação sobre os arquivos GFX.
+
+const GFX_MAGIC = 0xc
+const HEADER_SIZE = 0x18
+
+type GFX struct {
+	Psm        string
+	Magic      uint32
+	Width      uint32
+	Height     uint32
+	RealHeight uint32
+	Encoding   uint32
+	Bpi        uint32
+	DataSize   uint32
+	Data       [][]byte
+
+
+const (
+	GS_PSM_PSMCT32  = 0x00 // 32 bits per pixel.
+	GS_PSM_PSMCT24  = 0x01 // 24 bits per pixel.
+	GS_PSM_PSMCT16  = 0x02 // 16 bits per pixel.
+	GS_PSM_PSMCT16S = 0x0A // 16 bits per pixel.
+	GS_PSM_PSGPU24  = 0x12 // 24 bits per pixel.
+	GS_PSM_PSMT8    = 0x13 // 8 bits per pixel, palettized.
+	GS_PSM_PSMT4    = 0x14 // 4 bits per pixel, palettized.
+	GS_PSM_PSMT8H   = 0x1B // 8 bits per pixel, 24 to 32
+	GS_PSM_PSMT4HL  = 0x24 // 4 bits per pixel, 28 to 32
+	GS_PSM_PSMT4HH  = 0x2C // 4 bits per pixel, 24 to 27
+	GS_PSM_PSMZ32   = 0x30 // 32 bits per pixel.
+	GS_PSM_PSMZ24   = 0x31 // 24 bits per pixel.
+	GS_PSM_PSMZ16   = 0x32 // 16 bits per pixel.
+	GS_PSM_PSMZ16S  = 0x3A // 16 bits per pixel.
+
+)
+
+var GsPsm map[int]string = map[int]string{
+	GS_PSM_PSMCT32:  "GS_PSM_PSMCT32",
+	GS_PSM_PSMCT24:  "GS_PSM_PSMCT24",
+	GS_PSM_PSMCT16:  "GS_PSM_PSMCT16",
+	GS_PSM_PSMCT16S: "GS_PSM_PSMCT16S",
+	GS_PSM_PSGPU24:  "GS_PSM_PSGPU24",
+	GS_PSM_PSMT8:    "GS_PSM_PSMT8",
+	GS_PSM_PSMT4:    "GS_PSM_PSMT4",
+	GS_PSM_PSMT8H:   "GS_PSM_PSMT8H",
+	GS_PSM_PSMT4HL:  "GS_PSM_PSMT4HL",
+	GS_PSM_PSMT4HH:  "GS_PSM_PSMT4HH",
+	GS_PSM_PSMZ32:   "GS_PSM_PSMZ32",
+	GS_PSM_PSMZ24:   "GS_PSM_PSMZ24",
+	GS_PSM_PSMZ16:   "GS_PSM_PSMZ16",
+	GS_PSM_PSMZ16S:  "GS_PSM_PSMZ16S",
+}
