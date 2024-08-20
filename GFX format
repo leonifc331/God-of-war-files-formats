@@ -1,51 +1,74 @@
-Documentação sobre os arquivos GFX.
+Documentação do Formato de Arquivo GFX
+Introdução
 
-const GFX_MAGIC = 0xc
-const HEADER_SIZE = 0x18
+O formato de arquivo GFX é utilizado para armazenar dados de imagem em sistemas gráficos. Este formato define uma estrutura que inclui metadados essenciais, como dimensões da imagem, tipo de codificação, e os próprios dados de imagem em um formato específico. Esta documentação descreve em detalhes a estrutura do arquivo GFX, suas propriedades e os diferentes modos de armazenamento de pixel (PSM) suportados.
+Estrutura do Arquivo
 
-type GFX struct {
-	Psm        string
-	Magic      uint32
-	Width      uint32
-	Height     uint32
-	RealHeight uint32
-	Encoding   uint32
-	Bpi        uint32
-	DataSize   uint32
-	Data       [][]byte
+Um arquivo GFX consiste em um cabeçalho seguido pelos dados de imagem. A estrutura básica do arquivo é a seguinte:
 
+    Cabeçalho: Contém metadados como dimensões da imagem, tipo de codificação, e o modo de armazenamento de pixel (PSM).
+    Dados de Imagem: Os dados brutos da imagem armazenados em uma matriz de bytes.
 
-const (
-	GS_PSM_PSMCT32  = 0x00 // 32 bits per pixel.
-	GS_PSM_PSMCT24  = 0x01 // 24 bits per pixel.
-	GS_PSM_PSMCT16  = 0x02 // 16 bits per pixel.
-	GS_PSM_PSMCT16S = 0x0A // 16 bits per pixel.
-	GS_PSM_PSGPU24  = 0x12 // 24 bits per pixel.
-	GS_PSM_PSMT8    = 0x13 // 8 bits per pixel, palettized.
-	GS_PSM_PSMT4    = 0x14 // 4 bits per pixel, palettized.
-	GS_PSM_PSMT8H   = 0x1B // 8 bits per pixel, 24 to 32
-	GS_PSM_PSMT4HL  = 0x24 // 4 bits per pixel, 28 to 32
-	GS_PSM_PSMT4HH  = 0x2C // 4 bits per pixel, 24 to 27
-	GS_PSM_PSMZ32   = 0x30 // 32 bits per pixel.
-	GS_PSM_PSMZ24   = 0x31 // 24 bits per pixel.
-	GS_PSM_PSMZ16   = 0x32 // 16 bits per pixel.
-	GS_PSM_PSMZ16S  = 0x3A // 16 bits per pixel.
+Estrutura do Cabeçalho
 
-)
+O cabeçalho do arquivo GFX possui um tamanho fixo de 24 bytes (HEADER_SIZE = 0x18) e inclui os seguintes campos:
 
-var GsPsm map[int]string = map[int]string{
-	GS_PSM_PSMCT32:  "GS_PSM_PSMCT32",
-	GS_PSM_PSMCT24:  "GS_PSM_PSMCT24",
-	GS_PSM_PSMCT16:  "GS_PSM_PSMCT16",
-	GS_PSM_PSMCT16S: "GS_PSM_PSMCT16S",
-	GS_PSM_PSGPU24:  "GS_PSM_PSGPU24",
-	GS_PSM_PSMT8:    "GS_PSM_PSMT8",
-	GS_PSM_PSMT4:    "GS_PSM_PSMT4",
-	GS_PSM_PSMT8H:   "GS_PSM_PSMT8H",
-	GS_PSM_PSMT4HL:  "GS_PSM_PSMT4HL",
-	GS_PSM_PSMT4HH:  "GS_PSM_PSMT4HH",
-	GS_PSM_PSMZ32:   "GS_PSM_PSMZ32",
-	GS_PSM_PSMZ24:   "GS_PSM_PSMZ24",
-	GS_PSM_PSMZ16:   "GS_PSM_PSMZ16",
-	GS_PSM_PSMZ16S:  "GS_PSM_PSMZ16S",
+    Magic (magic): Um valor constante que identifica o arquivo como um arquivo GFX. O valor esperado é 0xC.
+    Largura (width): A largura da imagem em pixels, representada como um valor de 32 bits.
+    Altura (height): A altura da imagem em pixels, também representada como um valor de 32 bits.
+    Altura Real (real_height): A altura real da imagem, que pode incluir padding, representada como um valor de 32 bits.
+    Codificação (encoding): Um valor de 32 bits que indica o tipo de codificação utilizada para os dados da imagem.
+    Bits por Polegada (BPI) (bpi): Define a resolução da imagem em termos de bits por polegada.
+    Tamanho dos Dados (data_size): O tamanho total dos dados da imagem em bytes.
+    Dados da Imagem (data): Uma matriz de bytes que contém os dados brutos da imagem.
+
+Estrutura GFX em Pseudocódigo:
+struct GFX {
+    uint32_t magic;        // Identificador mágico do arquivo GFX, valor esperado: 0xC
+    uint32_t width;        // Largura da imagem em pixels
+    uint32_t height;       // Altura da imagem em pixels
+    uint32_t real_height;  // Altura real da imagem, incluindo padding
+    uint32_t encoding;     // Tipo de codificação dos dados de imagem
+    uint32_t bpi;          // Bits por polegada (resolução)
+    uint32_t data_size;    // Tamanho dos dados de imagem em bytes
+    byte[][] data;         // Dados de imagem, armazenados como uma matriz de bytes
 }
+
+Modos de Armazenamento de Pixel (PSM)
+
+O formato GFX suporta vários modos de armazenamento de pixel (PSM), que definem como os dados de imagem são organizados em termos de bits por pixel e se são paletizados ou não. Os modos PSM suportados são os seguintes:
+
+    GS_PSM_PSMCT32 (0x00): 32 bits por pixel.
+    GS_PSM_PSMCT24 (0x01): 24 bits por pixel.
+    GS_PSM_PSMCT16 (0x02): 16 bits por pixel.
+    GS_PSM_PSMCT16S (0x0A): 16 bits por pixel.
+    GS_PSM_PSGPU24 (0x12): 24 bits por pixel.
+    GS_PSM_PSMT8 (0x13): 8 bits por pixel, paletizado.
+    GS_PSM_PSMT4 (0x14): 4 bits por pixel, paletizado.
+    GS_PSM_PSMT8H (0x1B): 8 bits por pixel, com extensão de 24 para 32 bits.
+    GS_PSM_PSMT4HL (0x24): 4 bits por pixel, com extensão de 28 para 32 bits.
+    GS_PSM_PSMT4HH (0x2C): 4 bits por pixel, com extensão de 24 para 27 bits.
+    GS_PSM_PSMZ32 (0x30): 32 bits por pixel.
+    GS_PSM_PSMZ24 (0x31): 24 bits por pixel.
+    GS_PSM_PSMZ16 (0x32): 16 bits por pixel.
+    GS_PSM_PSMZ16S (0x3A): 16 bits por pixel.
+
+Estrutura dos Modos PSM
+
+Cada modo PSM é representado por uma constante inteira. Essas constantes são usadas no campo psm da estrutura GFX para indicar como os dados de imagem são armazenados e interpretados.
+
+Exemplo:
+GS_PSM_PSMCT32: 0x00 // 32 bits por pixel.
+
+Exemplo de Uso
+
+Um exemplo de um arquivo GFX pode ser ilustrado da seguinte forma:
+
+    Magic: 0xC
+    Largura: 800 pixels
+    Altura: 600 pixels
+    Altura Real: 600 pixels
+    Codificação: 0x00 (indicando o uso de 32 bits por pixel)
+    BPI: 72
+    Tamanho dos Dados: 1920000 bytes (para uma imagem de 800x600 com 32 bits por pixel)
+    Dados: Os bytes que representam os pixels da imagem.
