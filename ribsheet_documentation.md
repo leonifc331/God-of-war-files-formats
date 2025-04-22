@@ -72,7 +72,7 @@ O arquivo possui um cabeçalho de tamanho fixo seguido de múltiplas seções va
   - OffsetBytes, OffsetBits, valores default e máximo.
   
 | Nome do Campo 	  | Tipo     | OffsetBits | Descrição           							 |
-|---------------------|----------|------------|--------------------------------------------------|
+|:-----------------:|:--------:|:----------:|:------------------------------------------------:|
 | Ground        	  | bitfield | 0          | Superfície normal   							 |
 | Water         	  | bitfield | 1          | Água                							 |
 | Narrow        	  | bitfield | 2          | Superfície estreita							     |
