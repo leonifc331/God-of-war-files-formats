@@ -71,37 +71,38 @@ O arquivo possui um cabeçalho de tamanho fixo seguido de múltiplas seções va
   - Tipo: `0=int`, `1=float`, `2=bit`.
   - OffsetBytes, OffsetBits, valores default e máximo.
   
-|Nome do Campo | Tipo | OffsetBits | Descrição|
-|Ground | bitfield | 0 | Superfície normal|
-|Water | bitfield | 1 | Água|
-|Narrow | bitfield | 2 | Superfície estreita|
-|Climbable | bitfield | 3 | Superfície escalável|
-|Ladder | bitfield | 4 | Escada|
-|Slide | bitfield | 5 | Superfície escorregadia|
-|Death | bitfield | 6 | Mata ao tocar|
-|AIBlock | bitfield | 16 | Bloqueia IA|
-|ClimbGuide | bitfield | 17 | Guia para escalada|
-|PushPullSlide | bitfield | 18 | Superfície de empurrar/puxar|
-|BackPress | bitfield | 19 | Pressionar para trás|
-|NoPlayerCollision | bitfield | 20 | Jogador não colide|
-|NoAICollision | bitfield | 21 | IA não colide|
-|NoPlayerUse | bitfield | 22 | Jogador não usa|
-|NoAIUse | bitfield | 23 | IA não usa|
-|GeneralGuide | bitfield | 24 | Guia geral de movimentação|
-|NoDiving | bitfield | 25 | Não pode mergulhar|
-|NoPushPullCollision | bitfield | 26 | Sem colisão de empurrar/puxar|
-|CombatGuide | bitfield | 27 | Guia de combate|
-|NarrowNoBB | bitfield | 28 | Estreito sem bounding box|
-|NoCSMCollision | bitfield | 29 | Sem colisão CSM (possível referência de sistema)|
-|TakeDamage | bitfield | 32 | Recebe dano|
-|NoIK | bitfield | 33 | Sem IK (cinemática inversa)|
-|NoDecals | bitfield | 34 | Sem decalques|
-|DarkSurface | bitfield | 35 | Superfície escura|
-|NoWallHang | bitfield | 36 | Não permite pendurar|
-|CamRelControl | bitfield | 37 | Controle relativo de câmera|
-|NoLadderSliding | bitfield | 38 | Não desliza em escada|
-|NoBackJumps | bitfield | 39 | Sem saltos para trás|
-|NoShadows | bitfield | 40 | Sem sombras|
+| Nome do Campo 	  | Tipo     | OffsetBits | Descrição           							 |
+|---------------------|----------|------------|--------------------------------------------------|
+| Ground        	  | bitfield | 0          | Superfície normal   							 |
+| Water         	  | bitfield | 1          | Água                							 |
+| Narrow        	  | bitfield | 2          | Superfície estreita							     |
+| Climbable     	  | bitfield | 3          | Superfície escalável							 |
+| Ladder        	  | bitfield | 4 	      | Escada											 |
+| Slide         	  | bitfield | 5          | Superfície escorregadia							 |
+| Death 			  | bitfield | 6          | Mata ao tocar									 |
+| AIBlock 			  | bitfield | 16         | Bloqueia IA										 |
+| ClimbGuide 		  | bitfield | 17 		  | Guia para escalada								 |
+| PushPullSlide 	  | bitfield | 18 		  | Superfície de empurrar/puxar					 |
+| BackPress	    	  | bitfield | 19 		  | Pressionar para trás							 |
+| NoPlayerCollision   | bitfield | 20 		  | Jogador não colide								 |
+| NoAICollision 	  | bitfield | 21 		  | IA não colide									 |
+| NoPlayerUse 		  | bitfield | 22 		  | Jogador não usa									 |
+| NoAIUse 			  | bitfield | 23 		  | IA não usa								   		 |
+| GeneralGuide 		  | bitfield | 24 		  | Guia geral de movimentação						 |
+| NoDiving 			  | bitfield | 25 		  | Não pode mergulhar								 |
+| NoPushPullCollision | bitfield | 26 		  | Sem colisão de empurrar/puxar					 |
+| CombatGuide 		  | bitfield | 27 		  | Guia de combate									 |
+| NarrowNoBB 		  | bitfield | 28 		  | Estreito sem bounding box						 |
+| NoCSMCollision   	  | bitfield | 29    	  | Sem colisão CSM (possível referência de sistema) |
+| TakeDamage 		  | bitfield | 32 		  | Recebe dano 									 |
+| NoIK 				  | bitfield | 33 		  | Sem IK (cinemática inversa) 					 |
+| NoDecals 			  | bitfield | 34 		  | Sem decalques 									 |
+| DarkSurface         | bitfield | 35 		  | Superfície escura								 |
+| NoWallHang          | bitfield | 36 		  | Não permite pendurar							 |
+| CamRelControl       | bitfield | 37 		  | Controle relativo de câmera						 |
+| NoLadderSliding     | bitfield | 38 		  | Não desliza em escada							 |
+| NoBackJumps         | bitfield | 39 		  | Sem saltos para trás							 |
+| NoShadows           | bitfield | 40 		  | Sem sombras										 |
 ### 6. RibPolygon (Seção Some6)
 - Definição de polígonos.
 - Cada entrada é 2 bytes:
