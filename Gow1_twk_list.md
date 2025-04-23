@@ -1,4 +1,4 @@
-|name| file     | location                  | Description|
+|wad  | file     | location                  | Description|
 |:--:|:--------:|:-------------------------:|:--------------:|
 | Wad| TweakFile| $topDir/tweaks/ai1_001.twk|   Hero Ares Dummy|
 | Wad| TweakFile| $topDir/tweaks/ai1_010.twk|   redshirt|
