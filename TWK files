@@ -10,7 +10,7 @@ Arquivos TWK podem opcionalmente começar com um cabeçalho mágico:
 - **Número Mágico**: `0xFEDCBA98` (4 bytes, little-endian)
 - **UID**: Um identificador único de 32 bits (4 bytes, little-endian)
 
-Se os primeiros 4 bytes não corresponderem ao número mágico, o arquivo é processado sem cabeçalho.
+Se os primeiros 4 bytes não corresponderem ao número mágico, o arquivo é processado sem cabeçalho
 
 ### Comandos
 O arquivo consiste em uma série de comandos que constroem uma estrutura de sistema de arquivos virtual:
