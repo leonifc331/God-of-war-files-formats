@@ -1,0 +1,57 @@
+# TWK - Formato de Arquivo do God of War
+
+## Visão Geral
+O formato TWK é um formato binário utilizado na série God of War para armazenar dados estruturados em uma hierarquia semelhante a um sistema de arquivos virtual. Este documento descreve a estrutura e manipulação de arquivos TWK.
+
+## Estrutura do Arquivo
+
+### Cabeçalho
+Arquivos TWK podem opcionalmente começar com um cabeçalho mágico:
+- **Número Mágico**: `0xFEDCBA98` (4 bytes, little-endian)
+- **UID**: Um identificador único de 32 bits (4 bytes, little-endian)
+
+Se os primeiros 4 bytes não corresponderem ao número mágico, o arquivo é processado sem cabeçalho.
+
+### Comandos
+O arquivo consiste em uma série de comandos que constroem uma estrutura de sistema de arquivos virtual:
+
+| Comando  | Hex  | Descrição                  |
+|----------|------|----------------------------|
+| End      | 0x00 | Marca o fim do arquivo     |
+| Root     | 0x80 | Define o caminho raiz do VFS |
+| Enter    | 0x10 | Entra em um subdiretório   |
+| Exit     | 0x40 | Sai do diretório atual     |
+| Data     | 0x2X | Escreve dados (X determina tamanho do buffer) |
+
+### Tamanhos de Buffer de Dados
+Comandos de dados usam o nibble inferior para determinar o tamanho do buffer:
+
+| Índice | Tamanho |
+|--------|---------|
+| 0      | 4       |
+| 1      | 0x20    |
+| 2      | 0x40    |
+| 3      | 0x100   |
+| 4      | 0x200   |
+| 5      | 0x400   |
+| 6      | 0x800   |
+| 7      | 0x1000  |
+
+## Variante de Arquivo de Combate
+Arquivos com tag `0x72` (TWK_TagCombatFile) possuem estrutura diferente:
+1. Magic de 4 bytes (deve ser 1)
+2. Nome string terminado em null (128 bytes)
+3. Corpo de dados brutos
+
+## Documentação da API
+
+### Estrutura TWK
+```go
+type TWK struct {
+    Name                  string
+    MagicHeaderPresened   bool
+    HeaderStrangeMagicUid uint32
+    IsCombatFile          bool
+    Tree         *twktree.VFSNode
+    AbstractTree *twktree.VFSAbstractNode
+}
