@@ -4,7 +4,6 @@
 **Alvo analisado:** `SCUS_974.67` / God of War II PS2, ELF com símbolos  
 **Endian:** little-endian  
 **Escopo:** recursos soltos `FXC_*` e blocos equivalentes de FX dentro de WAD/IFF  
-**Objetivo:** documentar a estrutura binária e a função dos campos conhecidos. Esta documentação não inclui código, ferramenta, classe C# ou rotina de escrita.
 
 ---
 
@@ -106,7 +105,6 @@ Os símbolos do ELF confirmam a tabela de factories/clientes abaixo:
 | `12` | `fxField` | Campo de força | `0xB4` |
 | `13` | `fxGeometry` | Geometria auxiliar | `0x88` |
 
-Nos samples enviados apareceram os tipos `1`, `2`, `3`, `12` e `13`.
 
 ---
 
@@ -135,7 +133,6 @@ A matriz identidade aparece como:
 0 0 0 1
 ```
 
-A ordem dos 16 floats deve ser preservada. Para visualização em Blender/Noesis/engine externa, pode ser necessário testar se o motor interpreta a matriz como row-major ou column-major. A documentação atual confirma os offsets e os valores; a convenção exata de transformação deve ser validada em runtime.
 
 ---
 
@@ -275,14 +272,14 @@ Interpretação prática: campo de gravidade/força vertical aplicado às partí
 | `0x58` | `char[24]` | `geometryName` | Nome do recurso de mesh/modelo, normalmente começando com `MSH_`. |
 | `0x70` | `char[24]` | `identifier` | Nome curto usado por emissores para referenciar esta geometria. |
 
-### Exemplos reais
+### Exemplos
 
 | Arquivo | `geometryName` | `identifier` |
 |---|---|---|
 | `FXC_BDepoly3` | `MSH_BDepoly3Shape` | `BDepoly3Shape` |
 | `FXC_BDepoly6` | `MSH_BDepoly6Shape` | `BDepoly6Shape` |
 
-Relação observada:
+Relação:
 
 ```text
 FXC_BDepoly3
@@ -297,8 +294,6 @@ FXC_BDEsparkemit0
 
 ## 10. Trail — tipo `11`
 
-Nenhum sample `Trail` foi enviado nesta leva, mas os símbolos do ELF confirmam o tipo `fxTrail` e o layout esperado.
-
 | Offset | Tipo | Nome | Descrição |
 |---:|---|---|---|
 | `0x54` | `char[24]` | `curveName` | Nome da curva usada como base do trail. |
@@ -312,7 +307,7 @@ Tamanho esperado: `0x70` bytes.
 
 Os nomes internos do FXC usam buffers ASCII fixos de `24` bytes.
 
-Regras observadas:
+Regras:
 
 | Regra | Detalhe |
 |---|---|
@@ -337,7 +332,7 @@ GodMhitFpart1Shape
 
 Nos emissores de partículas, `particleSystemIdentifier` aponta para o sistema de partículas usado pelo efeito. Na prática, esse nome costuma corresponder a um recurso `PTC`/shape.
 
-Exemplos dos samples:
+Exemplos:
 
 | FXC | `particleSystemIdentifier` | Função provável |
 |---|---|---|
@@ -355,7 +350,7 @@ O FXC controla **onde e como emitir**. O PTC controla **como a partícula se par
 
 O tipo `Geometry` funciona como um registro de geometria. O tipo `PolySurfaceEmitter` usa esse registro para emitir partículas a partir de uma superfície.
 
-Fluxo observado:
+Fluxo:
 
 ```text
 1. FXC_BDepoly3 registra:
