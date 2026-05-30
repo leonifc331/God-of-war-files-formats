@@ -83,8 +83,6 @@ The stored matrix is 16 `float32` values. Identity appears as:
 0 0 0 1
 ```
 
-For editor/exporter work, preserve exact order. If converting to a DCC matrix, test orientation in-game before transposing because `VUMat4` conventions may be column-vector oriented internally.
-
 ## 5. `fxLoadParm` - 0x54 bytes
 
 `fxLoadParm` extends `goAttachmentLoadParm`.
