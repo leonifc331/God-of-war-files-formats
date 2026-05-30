@@ -2,7 +2,7 @@
 
 ## Origem da estrutura
 
-Os arquivos `PTC_*` analisados são parametros de `renParticleSystemLoadParm`, herdando de `goAttachmentLoadParm`. O servidor usado e o ParticleServer, cujo ID interno e 17.
+Os arquivos `PTC_*` são parametros de `renParticleSystemLoadParm`, herdando de `goAttachmentLoadParm`. O servidor usado e o ParticleServer, cujo ID interno e 17.
 
 Amostras analisadas:
 
