@@ -1,25 +1,25 @@
-# GOW2 PTC - formato de particulas
+# GOW2 PTC File
 
 ## Origem da estrutura
 
-Os arquivos `PTC_*` analisados sao parametros de `renParticleSystemLoadParm`, herdando de `goAttachmentLoadParm`. O servidor usado e o ParticleServer, cujo ID interno e 17.
+Os arquivos `PTC_*` analisados são parametros de `renParticleSystemLoadParm`, herdando de `goAttachmentLoadParm`. O servidor usado e o ParticleServer, cujo ID interno e 17.
 
 Amostras analisadas:
 
 - `PTC_PWFfxpart5` ate `PTC_PWFfxpart13`
 - `PTC_PWFfxpart17`, `18`, `20`, `21`, `23`, `24`, `26`, `27`, `28`
 
-Todos estao em little-endian.
+Todos estão em little-endian.
 
 ## Layout geral
 
-| Offset | Tamanho | Campo | Tipo | Observacao |
+| Offset | Tamanho | Campo | Tipo | Observação |
 |---:|---:|---|---|---|
 | 0x000 | 0x050 | `goAttachmentLoadParm` | struct | Base herdada |
 | 0x050 | 0x004 | `fParmSize` | u32 | Tamanho total do arquivo/bloco |
 | 0x054 | 0x018 | `fIdentifier` | char[24] | Nome ASCII interno |
 | 0x06C | 0x004 | `fMaxParticles` | s32 | -1 nos samples |
-| 0x070 | 0x004 | `fParticleLife` | f32 | Vida padrao |
+| 0x070 | 0x004 | `fParticleLife` | f32 | Vida padrão/Intensidade |
 | 0x074 | 0x004 | `fCullRadius` | f32 | Raio de culling |
 | 0x078 | 0x004 | `fLODNear` | f32 | -1 = sem limite |
 | 0x07C | 0x004 | `fLODFar` | f32 | -1 = sem limite |
@@ -33,7 +33,7 @@ Todos estao em little-endian.
 
 ## Base goAttachmentLoadParm
 
-| Offset | Campo | Tipo | Observacao |
+| Offset | Campo | Tipo | Observação |
 |---:|---|---|---|
 | 0x000 | `client_type` | u32 | Low16 = 17 para ParticleServer |
 | 0x004 | `fGroupID` | u32 | Grupo/attachment |
@@ -46,7 +46,7 @@ Todos estao em little-endian.
 
 Tamanho: 12 bytes.
 
-| Offset relativo | Campo | Tamanho | Descricao |
+| Offset relativo | Campo | Tamanho | Descrição |
 |---:|---|---:|---|
 | 0x00 | `fOutputs[9]` | 9 bytes | Location compactado |
 | 0x09 | `fPerParticleSize[2]` | 2 bytes | Tamanho por buffer EE/VU |
@@ -154,52 +154,3 @@ Tamanho: 0x90 bytes.
 | 0x00040000 | ForceIntoSub2Layer |
 | 0x00080000 | ForceIntoPostWorldLayer |
 | 0x00100000 | AutoFillOnConnect |
-
-## Variantes encontradas
-
-Duas variantes de tamanho apareceram nos samples:
-
-| Tamanho total | `fParmSize` | Coefficients | Renderer data |
-|---:|---:|---:|---:|
-| 0x238 | 0x238 | 0x0E0 | 0x30 |
-| 0x2A8 | 0x2A8 | 0x150 | 0x30 |
-
-Nos dois casos:
-
-```txt
-renderer data size = fRendererDataSize * 0x10 = 3 * 0x10 = 0x30
-coefficient size = parmData.fRendererData
-file size = 0x128 + coefficient size + renderer data size + trailing data
-```
-
-## Estrategia segura de save
-
-1. Ler todos os campos fixos semanticamente.
-2. Preservar `coefficient_data` e `renderer_data` como bytes.
-3. Permitir view/edit dos coeficientes como `float32`.
-4. Ao salvar, recalcular:
-   - `fParmSize`
-   - `parmData.fRendererData`
-   - `fRendererDataSize`
-5. Nao mexer em bytes desconhecidos sem acao explicita.
-
-## Comandos Python
-
-```bash
-python gow_ptc.py inspect PTC_PWFfxpart5
-python gow_ptc.py export-json PTC_PWFfxpart5 PTC_PWFfxpart5.json
-python gow_ptc.py import-json PTC_PWFfxpart5.json PTC_PWFfxpart5_rebuild
-python gow_ptc.py roundtrip ./samples
-python gow_ptc.py set-flag input output LiveForever --on
-python gow_ptc.py scale-coeffs input output --factor 2.0 --min-abs 1.0 --max-abs 1000.0
-```
-
-## Comandos C#
-
-```bash
-cd csharp/GowPtcSerializer
-dotnet run -- inspect PTC_PWFfxpart5
-dotnet run -- export-json PTC_PWFfxpart5 PTC_PWFfxpart5.json
-dotnet run -- import-json PTC_PWFfxpart5.json PTC_PWFfxpart5_rebuild
-dotnet run -- roundtrip ./samples
-```
